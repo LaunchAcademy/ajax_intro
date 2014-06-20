@@ -1,4 +1,6 @@
 require 'sinatra'
+require 'sinatra/json'
+require 'json'
 
 configure do
   set :views, 'app/views'
@@ -10,4 +12,9 @@ end
 
 get '/' do
   erb :index
+end
+
+get '/teams.json' do
+  @teams = Team.all
+  json @teams
 end
