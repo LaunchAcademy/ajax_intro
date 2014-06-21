@@ -13,17 +13,27 @@ class Team
   end
 
   DATA_FILE = File.join(File.dirname(__FILE__), '../../data/leaderboard.csv')
+  GAMES_PLAYED = 82
   class << self
     def all
-      [].tap do |teams|
+      standings = [].tap do |teams|
         CSV.foreach(DATA_FILE, headers: true) do |csv|
+          random_wins = rand(GAMES_PLAYED) + 1
+          random_losses = GAMES_PLAYED - random_wins - rand(6)
+          if random_losses < 0
+            random_losses = 0
+          end
           teams << new({
             name: csv["Team"],
-            wins: csv["W"],
-            losses: csv["L"],
+            wins: random_wins,
+            losses: random_losses,
             rank: csv["Rk"]
           })
         end
+      end
+
+      standings.sort{|a, b| b.wins <=> a.wins }.each_with_index do |team, index|
+        team.rank = index + 1
       end
     end
   end
