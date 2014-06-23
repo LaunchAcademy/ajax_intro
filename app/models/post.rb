@@ -22,7 +22,7 @@ class Post
       if !persisted?
         store.transaction do
           store[:posts] ||= {}
-          id = store[:posts].size + 1
+          self.id = store[:posts].size + 1
           self.created_at = Time.now
           store[:posts][id] = self.attributes
         end

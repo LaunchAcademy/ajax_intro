@@ -1,16 +1,18 @@
 <div class="row">
   <p><a href="/">&laquo; Back to Standings</a></p>
   <h2>NHL Trash Talk</h2>
-  <% if @posts %>
-    <% @posts.each do |post| %>
-      <div class="panel">
-        <h3><strong><%= post.author %></strong> writes:</h3>
-        <p><%= post.message %></p>
+  <div class="posts">
+    <% if @posts %>
+      <% @posts.each do |post| %>
+        <div class="panel">
+          <h3><strong><%= post.author %></strong> writes:</h3>
+          <p><%= post.message %></p>
 
-        <small><%= post.created_at.strftime("%m/%d/%Y %I:%M %P") %></small>
-      </div>
+          <small><%= post.created_at.strftime("%m/%d/%Y %I:%M %p") %></small>
+        </div>
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
 
   <% if @post.errors.any? %>
     <div class="alert-box alert">
@@ -24,7 +26,7 @@
   <% end %>
 
   <h4>Get in on the action</h4>
-  <form action="/posts" method="post">
+  <form action="/posts" method="post" id="new-post">
     <p>
       <label for="author">Your Name</label>
       <input type="text" name="post[author]" id="author" />

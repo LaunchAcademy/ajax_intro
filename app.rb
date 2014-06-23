@@ -29,7 +29,7 @@ get '/posts' do
 end
 
 post '/posts' do
-  @post = Post.new(params[:post])
+  @post = Post.new(params[:post] || {})
   if @post.save
     redirect to('/posts')
   else
@@ -38,12 +38,13 @@ post '/posts' do
 end
 
 post '/posts.json' do
-  @post = Post.new(params[:post])
+  sleep(1);
+  @post = Post.new(params[:post] || {})
   if @post.save
-    json @post
+    json @post.attributes
   else
     status 422
-    json @post.errors
+    json @post.errors.to_hash
   end
 end
 
