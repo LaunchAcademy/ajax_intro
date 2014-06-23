@@ -22,6 +22,31 @@ get '/time.json' do
   })
 end
 
+get '/posts' do
+  @posts = Post.all
+  @post = Post.new
+  erb :posts
+end
+
+post '/posts' do
+  @post = Post.new(params[:post])
+  if @post.save
+    redirect to('/posts')
+  else
+    erb :posts
+  end
+end
+
+post '/posts.json' do
+  @post = Post.new(params[:post])
+  if @post.save
+    json @post
+  else
+    status 422
+    json @post.errors
+  end
+end
+
 get '/slow_time.json' do
   sleep(3)
   time = Time.now.strftime('%I:%M:%S %p')
